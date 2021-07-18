@@ -26,7 +26,7 @@ const fetchNews = async () => {
         let response = await axios
             .get(getNewsEndpoint(category))
             .catch((err) => {
-                res.json(err);
+               console.log(err);
             });
 
         response.data.data.news_list.forEach(async (article) => {
