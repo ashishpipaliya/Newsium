@@ -19,9 +19,9 @@ const getTokens = async () => {
     }
 }
 
-const getNotificationPayload = async () => {
+const getNotificationPayload = async (category) => {
     try {
-        const querySnapshot = await firestore.collection('inshorts').where('category', '==', 'trending').orderBy('created_at', 'desc').limit(1).get();
+        const querySnapshot = await firestore.collection('inshorts').where('category', '==', category).orderBy('created_at', 'desc').limit(1).get();
         const notification = {
             title: querySnapshot.docs[0].data().title,
             image: querySnapshot.docs[0].data().image_url
@@ -47,9 +47,9 @@ var options = {
     timeToLive: 86400
 };
 
-const sendPush = () => {
+const sendPush = (category) => {
     getTokens().then(async (tokens) => {
-        const payload = await getNotificationPayload();
+        const payload = await getNotificationPayload(category);
         admin.messaging().sendToDevice(tokens, payload, options)
             .then(function (response) {
                 console.log("Successfully sent message:", response);

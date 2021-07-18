@@ -77,6 +77,8 @@ const deleteOldNews = async () => {
     console.log(`${snapshot.docs.length} news deleted`);
 }
 
-setInterval(fetchNews, 150000);
-setInterval(fcmpush, 1800000);
+setInterval(fetchNews, 1500000);
+setInterval(fcmpush('trending'), 1800000);
+setInterval(fcmpush('all_news'), 2400000);
+setInterval(fcmpush('top_stories'), 3000000);
 setInterval(deleteOldNews, 86400000);
