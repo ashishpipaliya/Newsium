@@ -3,6 +3,20 @@ const getNewsEndpoint = require('./utils/endpoint');
 const firebase = require('./utils/config');
 const firestore = firebase.firestore();
 const fcmpush = require('./fcmpush');
+const express = require('express');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+
+app.get('/', (req, res) => {
+    res.send('hello from simple server :)')
+});
+
+app.listen(port, ()=>{
+    console.log('server running on ' + port);
+});
+
 
 const fetchNews = async () => {
     const categories = [
