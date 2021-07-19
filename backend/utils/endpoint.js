@@ -1,4 +1,4 @@
-const default_limit = 5;
+const default_limit = 10;
 
 const getNewsEndpoint = (news_type) => {
   if (
