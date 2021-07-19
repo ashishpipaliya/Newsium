@@ -21,7 +21,7 @@ const getTokens = async () => {
 
 const getNotificationPayload = async () => {
     try {
-        const querySnapshot = await firestore.collection('inshorts').where('category', '==', 'trending').orderBy('created_at', 'desc').limit(1).get();
+        const querySnapshot = await firestore.collection('inshorts').orderBy('created_at', 'desc').limit(1).get();
         const notification = {
             title: querySnapshot.docs[0].data().title,
             image: querySnapshot.docs[0].data().image_url
