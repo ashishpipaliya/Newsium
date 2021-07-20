@@ -79,7 +79,6 @@ List<String> get categories => [
       'Politics',
       'Sports',
       'Technology',
-      'Startups',
       'Entertainment',
       'Hatke',
       'Education',

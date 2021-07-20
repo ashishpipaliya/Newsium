@@ -29,7 +29,8 @@ dependencies:
   overlay_support: ^1.2.1
   platform_device_id: ^1.0.1
   webview_flutter: ^2.0.10
-  modal_bottom_sheet: ^2.0.0
+  mongo_dart: ^0.7.0+2
+  get: ^4.1.4
 
   
 dev_dependencies:

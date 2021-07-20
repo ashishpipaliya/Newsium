@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:newsium/layout/news/news_page.dart';
+import 'package:newsium/models/news_model.dart';
 import 'package:newsium/utils/notification_view.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 
 class FireBaseCloudMessagingWrapper extends Object {
   RemoteMessage? _pendingNotification;
@@ -56,6 +60,39 @@ class FireBaseCloudMessagingWrapper extends Object {
     }
   }
 
+  Future<void> saveTokenToMongoDB(var token) async {
+    try {
+      String? deviceId = await PlatformDeviceId.getDeviceId;
+      print('----------------------------- $deviceId');
+      var db = await Db.create(
+          'mongodb+srv://ashish:ashdeveloper@cluster0.ji7mu.mongodb.net/tokens');
+      await db.open();
+
+      var collection = db.collection('tokens');
+
+      var data = {
+        '_id': deviceId,
+        'token': token,
+        'created_at': DateTime.now().toUtc().millisecondsSinceEpoch,
+        'device_type': Platform.isAndroid ? 'android' : 'ios'
+      };
+
+      var exists = await collection.findOne({'_id': deviceId});
+
+      if (exists == null) {
+        await collection.insert(data);
+      } else {
+        await collection.update(where.eq('_id', deviceId),
+            modify.set('token', token).set('created_at', data['created_at']),
+            multiUpdate: true);
+      }
+
+      db.close();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void firebaseCloudMessagingListeners() {
     _fireBaseMessaging!.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
@@ -97,8 +134,6 @@ class FireBaseCloudMessagingWrapper extends Object {
     body = payload?.notification?.body ?? '';
     data = payload?.data;
 
-    print("+++++++++++++++++++++++++" + data!.toString());
-
     print("Display notification view");
 
     showOverlayNotification((BuildContext _cont) {
@@ -115,9 +150,32 @@ class FireBaseCloudMessagingWrapper extends Object {
   }
 
   void notificationOperation({RemoteMessage? payload}) {
-    print(" Notification On tap Detected ");
+    print(" Notification tap detected ");
 
     Map<String, dynamic> notification = Map<String, dynamic>();
     notification = payload!.data;
+
+    _handleRedirect(category: payload.data['category']);
+  }
+
+  int getTabIndex(String? category) {
+    int index = 0;
+    final catList = categories
+        .map((c) => c.toLowerCase().trim().replaceAll('-', ''))
+        .toList();
+
+    index = catList.indexOf(category!);
+    return index;
+  }
+
+  _handleRedirect({String? category}) {
+    if (category == 'all_news') {
+      Get.toNamed('/FeedScreen');
+    } else {
+      // Get.toNamed('/FeedScreen');
+      Future.delayed(Duration(milliseconds: 100), () {
+        Get.to(() => CategoryWiseNewsPage(tabIndex: getTabIndex(category)));
+      });
+    }
   }
 }

@@ -15,7 +15,7 @@ class AppModel extends ChangeNotifier {
     // Update FCM Token
     Future.delayed(Duration(seconds: 3), () async {
       String fcmToken = await FireBaseCloudMessagingWrapper().getFCMToken();
-      FireBaseCloudMessagingWrapper().saveTokens(fcmToken);
+      FireBaseCloudMessagingWrapper().saveTokenToMongoDB(fcmToken);
       FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     });

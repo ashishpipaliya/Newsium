@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:newsium/layout/feed_page.dart';
 import 'package:newsium/localization/app_model.dart';
 import 'package:newsium/utils/app_router.dart';
+import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +26,7 @@ class _AppWrapperState extends State<AppWrapper> {
       child: Consumer<AppModel>(
         builder: (context, value, child) {
           return OverlaySupport(
-            child: MaterialApp(
+            child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               // builder: (context, child) => MediaQuery(
               //   child: child!,
@@ -33,6 +35,7 @@ class _AppWrapperState extends State<AppWrapper> {
               home: FeedScreen(),
               onGenerateRoute: (settings) =>
                   AppRouter.onGenerateRoute(settings),
+             
               theme: new ThemeData(
                 primaryColor: AppColor.brownColor,
               ),

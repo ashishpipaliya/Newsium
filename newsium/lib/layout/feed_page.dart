@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:newsium/layout/news/news_adapter.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/services/firestore_path.dart';
 import 'package:newsium/utils/app_color.dart';
-import 'package:newsium/utils/app_image.dart';
 import 'package:newsium/utils/utils.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
