@@ -3,7 +3,7 @@ var serviceAccount = require('./utils/service-account.json');
 const firebase = require('./utils/config');
 const firestore = firebase.firestore();
 const mongoose = require('mongoose');
-const Token = require('../backend/model/token_model')
+const Token = require('./model/token_model')
 require('dotenv').config()
 
 admin.initializeApp({
@@ -51,8 +51,7 @@ const getNotificationPayload = async () => {
 
 
 var options = {
-    priority: "high",
-    timeToLive: 86400
+    priority: "high"
 };
 
 const sendPush = () => {
