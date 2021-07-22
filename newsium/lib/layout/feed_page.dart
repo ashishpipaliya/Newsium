@@ -35,19 +35,23 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _key,
-        appBar: AppBar(
-          title: Text(
-            'Newsium',
-            style: TextStyle(color: AppColor.brownColor),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top + 15),
+                      child: Text('Newsium',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: AppColor.darkTextColor,
+                              fontWeight: FontWeight.bold))),
+                ],
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: PaginateFirestore(
@@ -59,12 +63,12 @@ class _FeedScreenState extends State<FeedScreen> {
                     return NewsAdapter(
                       news: n,
                       openWeb: () =>
-                          _showNewsInBottomSheet(context, url: n.sourceUrl),
+                          _showNewsInDialog(context, url: n.sourceUrl),
                     );
                   },
                   query: FirestorePath.allNews,
                   itemBuilderType: PaginateBuilderType.pageView,
-                  scrollDirection: Axis.horizontal,
+                  scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   emptyDisplay: Center(child: Text('No Record Found')),
                   initialLoader:
@@ -100,8 +104,8 @@ class _FeedScreenState extends State<FeedScreen> {
         ));
   }
 
-  _showNewsInBottomSheet(BuildContext context, {required String? url}) {
-    Utils.showNewsInBottomSheet(context, url: url);
+  _showNewsInDialog(BuildContext context, {required String? url}) {
+    Utils.showNewsInDialog(context, url: url);
   }
 
   _handleCategoryPushEvent(int index) {

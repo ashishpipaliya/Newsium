@@ -44,7 +44,7 @@ class RectangleNewsAdapter extends StatelessWidget {
                       onTap: openWeb,
                       child: Text(
                         news!.title!,
-                        maxLines: 5,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 16,

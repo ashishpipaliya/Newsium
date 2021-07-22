@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/utils/app_color.dart';
+import 'package:newsium/utils/app_image.dart';
 import 'package:newsium/utils/widgets/image_widget.dart';
 
 class NewsAdapter extends StatelessWidget {
@@ -19,6 +20,7 @@ class NewsAdapter extends StatelessWidget {
         color: AppColor.cardBackgroundColor,
       ),
       child: Material(
+        color: Colors.transparent,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,9 +40,13 @@ class NewsAdapter extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Container(
                 width: double.infinity,
-                constraints: BoxConstraints(maxHeight: 220),
-                child: ImageWidget(
-                  url: news!.imageUrl,
+                constraints: BoxConstraints(maxHeight: 250),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: ImageWidget(
+                    url: news?.imageUrl,
+                    placeholder: AppImage.placeholder,
+                  ),
                 ),
               ),
             ),

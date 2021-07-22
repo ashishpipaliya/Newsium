@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsium/utils/app_image.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class ErrorPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text('404 route'),
+          child: Image.asset(AppImage.pageNotFound),
         ),
       ),
     );

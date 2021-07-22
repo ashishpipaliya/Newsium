@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,19 +45,19 @@ class FireBaseCloudMessagingWrapper extends Object {
     }
   }
 
-  Future<void> saveTokens(var token) async {
-    try {
-      String? deviceId = await PlatformDeviceId.getDeviceId;
-      print('----------------------------- $deviceId');
-      await FirebaseFirestore.instance.collection('tokens').doc(deviceId).set({
-        'token': token,
-        'created_at': DateTime.now().toUtc().millisecondsSinceEpoch,
-        'device_type': Platform.isAndroid ? 'android' : 'ios'
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> saveTokens(var token) async {
+  //   try {
+  //     String? deviceId = await PlatformDeviceId.getDeviceId;
+  //     print('----------------------------- $deviceId');
+  //     await FirebaseFirestore.instance.collection('tokens').doc(deviceId).set({
+  //       'token': token,
+  //       'created_at': DateTime.now().toUtc().millisecondsSinceEpoch,
+  //       'device_type': Platform.isAndroid ? 'android' : 'ios'
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<void> saveTokenToMongoDB(var token) async {
     try {
@@ -94,6 +93,7 @@ class FireBaseCloudMessagingWrapper extends Object {
   }
 
   void firebaseCloudMessagingListeners() {
+    performPendingNotificationOperation();
     _fireBaseMessaging!.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
         if (this._isAppStarted) {
@@ -106,6 +106,7 @@ class FireBaseCloudMessagingWrapper extends Object {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("onMessage :: ${message.toString()}");
+
       Future.delayed(Duration(seconds: 1),
           () => this.displayNotificationView(payload: message));
     });
@@ -113,6 +114,8 @@ class FireBaseCloudMessagingWrapper extends Object {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       notificationOperation(payload: message);
     });
+
+    // FirebaseMessaging.onBackgroundMessage(onBackgroundHandler);
   }
 
   performPendingNotificationOperation() {
@@ -128,11 +131,11 @@ class FireBaseCloudMessagingWrapper extends Object {
   void displayNotificationView({RemoteMessage? payload}) {
     String title = "Newsium";
     String body = "";
-    Map<String, dynamic>? data = {};
+    // Map<String, dynamic>? data = {};
 
     title = payload?.notification?.title ?? '';
     body = payload?.notification?.body ?? '';
-    data = payload?.data;
+    // data = payload?.data;
 
     print("Display notification view");
 
@@ -149,13 +152,18 @@ class FireBaseCloudMessagingWrapper extends Object {
     }, duration: Duration(milliseconds: 5000));
   }
 
+// when app is terminated
+  // Future<void> onBackgroundHandler(RemoteMessage? message) async {
+  //   print(message!.notification);
+  // }
+
+// handle notification actions
   void notificationOperation({RemoteMessage? payload}) {
     print(" Notification tap detected ");
 
     Map<String, dynamic> notification = Map<String, dynamic>();
     notification = payload!.data;
-
-    _handleRedirect(category: payload.data['category']);
+    _handleRedirect(category: notification['category']);
   }
 
   int getTabIndex(String? category) {
@@ -169,13 +177,11 @@ class FireBaseCloudMessagingWrapper extends Object {
   }
 
   _handleRedirect({String? category}) {
-    if (category == 'all_news') {
-      Get.toNamed('/FeedScreen');
+    if (category == 'top_stories') {
+      Get.offNamed('/FeedScreen');
     } else {
-      // Get.toNamed('/FeedScreen');
-      Future.delayed(Duration(milliseconds: 100), () {
-        Get.to(() => CategoryWiseNewsPage(tabIndex: getTabIndex(category)));
-      });
+      Get.offAllNamed('/FeedScreen');
+      Get.to(() => CategoryWiseNewsPage(tabIndex: getTabIndex(category)));
     }
   }
 }

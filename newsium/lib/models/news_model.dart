@@ -51,7 +51,6 @@ class News {
 }
 
 enum NewsCategory {
-  all_news,
   trending,
   top_stories,
   national,
@@ -73,7 +72,6 @@ enum NewsCategory {
 
 List<String> get categories => [
       'Trending',
-      'Top_Stories',
       'National',
       'Business',
       'Politics',

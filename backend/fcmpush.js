@@ -38,6 +38,7 @@ const getNotificationPayload = async () => {
         }
         const data = {
             category: querySnapshot.docs[0].data().category,
+            click_action: "FLUTTER_NOTIFICATION_CLICK"
         }
         var payload = {
             notification: notification,
@@ -58,8 +59,8 @@ const sendPush = () => {
     const hours = new Date().getHours();
     const sendNotifications = hours > 6 && hours <= 22
 
-    console.log(hours);
-    console.log(sendNotifications);
+    console.log(`send notifications = ${sendNotifications} as people are sleeping`);
+
 
     if (sendNotifications) {
         getTokensFromMongodb().then(async (tokens) => {

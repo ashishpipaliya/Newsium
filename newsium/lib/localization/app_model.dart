@@ -3,6 +3,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
 
+// Future<void> onBackgroundHandler(RemoteMessage? message) async {
+//   if (message != null) {
+//     print(message.notification);
+//   }
+// }
+
 class AppModel extends ChangeNotifier {
   AppModel() {
     this._setupInitial();

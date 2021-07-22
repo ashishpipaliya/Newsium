@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:newsium/layout/news/tabbed_news_page.dart';
 import 'package:newsium/layout/news/tabbed_news_page_pagination.dart';
 import 'package:newsium/models/news_model.dart';
@@ -51,11 +52,16 @@ class _CategoryWiseNewsPageState extends State<CategoryWiseNewsPage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () => Navigator.pop(context),
                       icon: Icon(
                         Icons.arrow_back,
                         size: 30,
                       ),
+                      onPressed: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        }
+                        ;
+                      },
                     ),
                     IconButton(
                       onPressed: _handleMenuClickEvent,

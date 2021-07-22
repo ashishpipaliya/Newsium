@@ -35,12 +35,13 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
           News n = News.fromJson(data);
           return RectangleNewsAdapter(
             news: n,
-            openWeb: () => _showNewsInBottomSheet(context, url: n.sourceUrl),
+            openWeb: () => _showNewsInDialog(context, url: n.sourceUrl),
           );
         },
         query: FirestorePath.categoryWiseQuery(category: widget.category),
         itemBuilderType: PaginateBuilderType.listView,
         shrinkWrap: true,
+        emptyDisplay: Center(child: Text('No Records Found')),
         itemsPerPage: 10,
         initialLoader: SpinKitThreeBounce(color: AppColor.brownColor, size: 20),
         bottomLoader: SpinKitThreeBounce(color: AppColor.brownColor, size: 20),
@@ -49,7 +50,7 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
     );
   }
 
-  _showNewsInBottomSheet(BuildContext context, {required String? url}) {
-    Utils.showNewsInBottomSheet(context, url: url);
+  _showNewsInDialog(BuildContext context, {required String? url}) {
+    Utils.showNewsInDialog(context, url: url);
   }
 }

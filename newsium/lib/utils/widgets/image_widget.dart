@@ -11,19 +11,15 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius:
-          borderRadius == null ? BorderRadius.circular(15) : borderRadius,
-      child: FadeInImage.assetNetwork(
+    return FadeInImage.assetNetwork(
+      fit: BoxFit.cover,
+      image: url!,
+      imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+        placeholder!,
         fit: BoxFit.cover,
-        image: url!,
-        imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-          placeholder!,
-          fit: BoxFit.cover,
-          width: double.infinity,
-        ),
-        placeholder: placeholder ?? AppImage.placeholder,
+        width: double.infinity,
       ),
+      placeholder: placeholder ?? AppImage.placeholder,
     );
   }
 }
