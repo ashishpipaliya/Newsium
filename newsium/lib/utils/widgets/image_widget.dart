@@ -11,15 +11,18 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInImage.assetNetwork(
-      fit: BoxFit.cover,
-      image: url!,
-      imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-        placeholder!,
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: FadeInImage.assetNetwork(
         fit: BoxFit.cover,
-        width: double.infinity,
+        image: url!,
+        imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+          placeholder!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+        ),
+        placeholder: placeholder ?? AppImage.placeholder,
       ),
-      placeholder: placeholder ?? AppImage.placeholder,
     );
   }
 }

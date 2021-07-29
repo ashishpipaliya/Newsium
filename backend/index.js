@@ -23,7 +23,7 @@ const fetchNews = async () => {
         'trending', 'top_stories', 'national', 'business', 'politics', 'sports', 'technology', 'startups', 'entertainment', 'hatke', 'education', 'world', 'automobile', 'science', 'travel', 'miscellaneous', 'fashion'];
 
         const hours = new Date().getHours();
-    const fetchNews =hours > 6 && hours <= 22
+    const fetchNews =hours >= 6 && hours <= 22
     console.log(`fetch news = ${fetchNews}`);
 
     if (fetchNews) {

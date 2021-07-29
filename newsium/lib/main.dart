@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:newsium/utils/app_wrapper.dart';
 
-Future<void> onBackgroundHandler(RemoteMessage? message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

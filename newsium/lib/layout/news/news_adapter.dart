@@ -41,12 +41,10 @@ class NewsAdapter extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 constraints: BoxConstraints(maxHeight: 250),
-                child: ClipRRect(
+                child: ImageWidget(
+                  url: news?.imageUrl,
+                  placeholder: AppImage.placeholder,
                   borderRadius: BorderRadius.circular(20),
-                  child: ImageWidget(
-                    url: news?.imageUrl,
-                    placeholder: AppImage.placeholder,
-                  ),
                 ),
               ),
             ),
