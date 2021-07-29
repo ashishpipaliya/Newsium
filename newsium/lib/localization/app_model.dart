@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:newsium/services/notification_service.dart';
 import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
 
 class AppModel extends ChangeNotifier {

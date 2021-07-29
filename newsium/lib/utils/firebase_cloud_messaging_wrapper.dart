@@ -1,15 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:newsium/layout/news/news_page.dart';
 import 'package:newsium/models/news_model.dart';
+import 'package:newsium/services/notification_service.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
-Future<void> onBackgroundHandler(RemoteMessage? message) async {}
+Future<void> onBackgroundHandler(RemoteMessage? message) async {
+  await Firebase.initializeApp();
+}
 
 class FireBaseCloudMessagingWrapper extends Object {
   RemoteMessage? _pendingNotification;
@@ -84,7 +87,6 @@ class FireBaseCloudMessagingWrapper extends Object {
     performPendingNotificationOperation();
     _fireBaseMessaging!.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
-        NotificationService.showNotification(message);
         if (this._isAppStarted) {
           this.notificationOperation(payload: message);
         } else {
@@ -95,7 +97,7 @@ class FireBaseCloudMessagingWrapper extends Object {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("onMessage :: ${message.toString()}");
-      // NotificationService.showNotification(message);
+     NotificationService.displayNotification(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -150,10 +152,10 @@ class FireBaseCloudMessagingWrapper extends Object {
 
     Map<String, dynamic> notification = Map<String, dynamic>();
     notification = payload!.data;
-    _handleRedirect(category: notification['category']);
+    handleRedirect(category: notification['category']);
   }
 
-  int getTabIndex(String? category) {
+  static int getTabIndex(String? category) {
     int index = 0;
     final catList = categories.map((c) => c.toLowerCase().trim().replaceAll('-', '')).toList();
 
@@ -161,46 +163,12 @@ class FireBaseCloudMessagingWrapper extends Object {
     return index;
   }
 
-  void _handleRedirect({String? category}) {
+ static void handleRedirect({String? category}) {
     if (category == 'top_stories') {
       Get.offNamed('/FeedScreen');
     } else {
       Get.offAllNamed('/FeedScreen');
       Get.to(() => CategoryWiseNewsPage(tabIndex: getTabIndex(category)));
-    }
-  }
-}
-
-class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notification = FlutterLocalNotificationsPlugin();
-
-  static void initialize() {
-    final InitializationSettings _initializationSettings = InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-    );
-    _notification.initialize(_initializationSettings);
-  }
-
-  static void showNotification(RemoteMessage? message) async {
-    try {
-      NotificationDetails notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails(
-          'newsium',
-          'newsium',
-          'newsium',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      );
-
-      _notification.show(
-        DateTime.now().millisecondsSinceEpoch ~/ 100000,
-        message?.notification?.title,
-        message?.notification?.body,
-        notificationDetails,
-      );
-    } on Exception catch (e) {
-      print(e);
     }
   }
 }

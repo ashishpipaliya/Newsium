@@ -36,16 +36,14 @@ class NewsAdapter extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
             )),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Container(
-                width: double.infinity,
-                constraints: BoxConstraints(maxHeight: 250),
-                child: ImageWidget(
-                  url: news?.imageUrl,
-                  placeholder: AppImage.placeholder,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              width: double.infinity,
+              constraints: BoxConstraints(maxHeight: 230),
+              child: ImageWidget(
+                url: news?.imageUrl,
+                placeholder: AppImage.placeholder,
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
             Row(
