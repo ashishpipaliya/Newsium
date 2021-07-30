@@ -33,12 +33,13 @@ const getNotificationPayload = async () => {
     try {
         const querySnapshot = await firestore.collection('inshorts').orderBy('created_at', 'desc').limit(1).get();
         const notification = {
-            title: querySnapshot.docs[0].data().title,
+            body: querySnapshot.docs[0].data().title,
             image: querySnapshot.docs[0].data().image_url,
             channelId: 'newsium'
         }
         const data = {
             category: querySnapshot.docs[0].data().category,
+            createdAt: querySnapshot.docs[0].data().createdAt,
             click_action: "FLUTTER_NOTIFICATION_CLICK"
         }
         var payload = {
