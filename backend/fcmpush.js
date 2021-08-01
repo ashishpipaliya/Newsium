@@ -39,7 +39,7 @@ const getNotificationPayload = async () => {
         }
         const data = {
             category: querySnapshot.docs[0].data().category,
-            createdAt: querySnapshot.docs[0].data().createdAt,
+            created_at: querySnapshot.docs[0].data().created_at.toString(),
             click_action: "FLUTTER_NOTIFICATION_CLICK"
         }
         var payload = {
@@ -51,7 +51,6 @@ const getNotificationPayload = async () => {
         return {};
     }
 }
-
 
 var options = {
     priority: "high"

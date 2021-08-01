@@ -65,7 +65,7 @@ const addNews = async (data) => {
         try {
 
             await firestore.collection('inshorts').doc(data.hash_id).set(data, { merge: true });
-            console.log(`${data.title} added`);
+            // console.log(`${data.title} added`);
 
         } catch (e) {
             console.log(e.message);
