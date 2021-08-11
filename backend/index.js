@@ -1,5 +1,7 @@
 const axios = require('axios');
 const getNewsEndpoint = require('./utils/endpoint');
+var admin = require('firebase-admin');
+var serviceAccount = require('./utils/service-account.json');
 const firebase = require('./utils/config');
 const firestore = firebase.firestore();
 const fcmpush = require('./fcmpush');
@@ -7,6 +9,11 @@ const express = require('express');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: 'https://flutter-fire-news.firebaseio.com'
+// });
 
 
 app.get('/', (req, res) => {
@@ -22,8 +29,8 @@ const fetchNews = async () => {
     const categories = [
         'trending', 'top_stories', 'national', 'business', 'politics', 'sports', 'technology', 'startups', 'entertainment', 'hatke', 'education', 'world', 'automobile', 'science', 'travel', 'miscellaneous', 'fashion'];
 
-        const hours = new Date().getHours();
-    const fetchNews =hours >= 6 && hours <= 22
+    const hours = new Date().getHours();
+    const fetchNews = hours >= 6 && hours <= 22
     console.log(`fetch news = ${fetchNews}`);
 
     if (fetchNews) {
@@ -64,7 +71,7 @@ const addNews = async (data) => {
     if (data != null) {
         try {
 
-            await firestore.collection('inshorts').doc(data.hash_id).set(data, { merge: true });
+            await admin.firestore().collection('inshorts').doc(data.hash_id).set(data, { merge: true });
             // console.log(`${data.title} added`);
 
         } catch (e) {
@@ -75,13 +82,13 @@ const addNews = async (data) => {
 
 const deleteOldNews = async () => {
     const datediff = Date.now() - 172800000;
-    const snapshot = await firestore.collection('inshorts').where('created_at', '<=', datediff).get();
+    const snapshot = await admin.firestore().collection('inshorts').where('created_at', '<=', datediff).get();
     snapshot.docs.map(async (doc) => {
         await doc.ref.delete();
     });
     console.log(`${snapshot.docs.length} news deleted`);
 }
 
-setInterval(fetchNews, 840000);
+setInterval(fetchNews, 10000);
 setInterval(fcmpush, 900000);
 setInterval(deleteOldNews, 86400000);
