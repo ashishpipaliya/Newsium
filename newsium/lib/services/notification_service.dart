@@ -3,10 +3,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notification = FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin _notification =
+      FlutterLocalNotificationsPlugin();
 
   static void initialize() {
-    final InitializationSettings _initializationSettings = InitializationSettings(
+    final InitializationSettings _initializationSettings =
+        InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
     );
     _notification.initialize(

@@ -31,7 +31,7 @@ const getTokensFromMongodb = async () => {
 
 const getNotificationPayload = async () => {
     try {
-        const querySnapshot = await firestore.collection('inshorts').orderBy('created_at', 'desc').limit(1).get();
+        const querySnapshot = await admin.firestore().collection('inshorts').orderBy('created_at', 'desc').limit(1).get();
         const notification = {
             body: querySnapshot.docs[0].data().title,
             image: querySnapshot.docs[0].data().image_url,
@@ -60,7 +60,7 @@ const sendPush = () => {
     const hours = new Date().getHours();
     const sendNotifications = hours >= 6 && hours <= 22
 
-    console.log(`send notifications = ${sendNotifications} as people are sleeping`);
+    console.log(`send notifications = ${sendNotifications}`);
 
     if (sendNotifications) {
         getTokensFromMongodb().then(async (tokens) => {
