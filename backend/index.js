@@ -89,6 +89,6 @@ const deleteOldNews = async () => {
     console.log(`${snapshot.docs.length} news deleted`);
 }
 
-setInterval(fetchNews, 10000);
+setInterval(fetchNews, 840000);
 setInterval(fcmpush, 900000);
 setInterval(deleteOldNews, 86400000);
