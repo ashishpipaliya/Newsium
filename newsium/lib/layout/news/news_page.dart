@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:newsium/layout/news/tabbed_news_page.dart';
 import 'package:newsium/layout/news/tabbed_news_page_pagination.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/utils/app_image.dart';

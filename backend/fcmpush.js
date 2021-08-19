@@ -35,7 +35,7 @@ const getNotificationPayload = async () => {
         const notification = {
             body: querySnapshot.docs[0].data().title,
             image: querySnapshot.docs[0].data().image_url,
-            channelId: 'newsium'
+            android_channel_id : 'newsium',
         }
         const data = {
             category: querySnapshot.docs[0].data().category,

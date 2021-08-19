@@ -70,7 +70,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   itemBuilderType: PaginateBuilderType.pageView,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  emptyDisplay: Center(child: Text('No Record Found')),
+                  emptyDisplay: Center(child: Text('No Latest News Found')),
                   initialLoader:
                       SpinKitThreeBounce(color: AppColor.brownColor, size: 20),
                   bottomLoader:

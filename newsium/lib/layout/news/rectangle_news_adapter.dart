@@ -6,8 +6,11 @@ import 'package:newsium/utils/widgets/image_widget.dart';
 
 class RectangleNewsAdapter extends StatelessWidget {
   final News? news;
+  final Function()? openModal;
   final Function()? openWeb;
-  const RectangleNewsAdapter({Key? key, this.news, this.openWeb})
+  final Function()? viewImage;
+  const RectangleNewsAdapter(
+      {Key? key, this.news, this.openWeb, this.openModal, this.viewImage})
       : super(key: key);
 
   @override
@@ -20,12 +23,13 @@ class RectangleNewsAdapter extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: AppColor.tileBackgroundGrayColor,
       ),
-      child: Material(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          GestureDetector(
+            onTap: viewImage,
+            child: Container(
               height: 90,
               width: 90,
               child: ImageWidget(
@@ -34,22 +38,23 @@ class RectangleNewsAdapter extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            SizedBox(width: 10),
-            Flexible(
+          ),
+          SizedBox(width: 10),
+          Flexible(
+            child: GestureDetector(
+              onTap: openModal,
+              onDoubleTap: openWeb,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: InkWell(
-                      onTap: openWeb,
-                      child: Text(
-                        news!.title!,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    child: Text(
+                      news!.title!,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -81,8 +86,8 @@ class RectangleNewsAdapter extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

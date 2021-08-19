@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:newsium/layout/news/rectangle_news_adapter.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/services/firestore_path.dart';
 import 'package:newsium/utils/app_color.dart';
 import 'package:newsium/utils/utils.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class TabbedNewsPagePaginated extends StatefulWidget {
   final List<News>? news;
@@ -36,6 +38,8 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
           return RectangleNewsAdapter(
             news: n,
             openWeb: () => _showNewsInDialog(context, url: n.sourceUrl),
+            openModal: () => _showNewsInModal(context, news: n),
+            viewImage: () => _viewImage(n.imageUrl!),
           );
         },
         query: FirestorePath.categoryWiseQuery(category: widget.category),
@@ -45,12 +49,40 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
         itemsPerPage: 10,
         initialLoader: SpinKitThreeBounce(color: AppColor.brownColor, size: 20),
         bottomLoader: SpinKitThreeBounce(color: AppColor.brownColor, size: 20),
-        isLive: true,
+        isLive: false,
       ),
     );
   }
 
   _showNewsInDialog(BuildContext context, {required String? url}) {
     Utils.showNewsInDialog(context, url: url);
+  }
+
+  _showNewsInModal(BuildContext context, {required News? news}) {
+    Utils.showNewsBottomSheet(context, news: news);
+  }
+
+  _viewImage(String? image) {
+    Get.to(ViewImage(image: image));
+  }
+}
+
+class ViewImage extends StatelessWidget {
+  final String? image;
+  const ViewImage({Key? key, this.image}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PinchZoom(
+      child: Image.network(image!),
+      resetDuration: const Duration(milliseconds: 100),
+      maxScale: 2.5,
+      onZoomStart: () {
+        print('Start zooming');
+      },
+      onZoomEnd: () {
+        print('Stop zooming');
+      },
+    );
   }
 }
