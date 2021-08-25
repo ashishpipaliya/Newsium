@@ -56,7 +56,7 @@ class Utils {
   }
 
   static showNewsBottomSheet(BuildContext context, {required News? news}) {
-    showModalBottomSheet(
+    showBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) {

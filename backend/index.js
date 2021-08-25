@@ -10,11 +10,6 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: 'https://flutter-fire-news.firebaseio.com'
-// });
-
 
 app.get('/', (req, res) => {
     res.send('hello from simple server :)')
@@ -23,7 +18,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('server running on ' + port);
 });
-
 
 const fetchNews = async () => {
     const categories = [
@@ -56,6 +50,7 @@ const fetchNews = async () => {
                         image_url: newsObj['image_url'],
                         created_at: newsObj['created_at'],
                         inshorts_url: newsObj['shortened_url'],
+                        pushed_at: Date.now(),
                     };
                     await addNews(singleNewsData)
                 }
@@ -82,10 +77,11 @@ const addNews = async (data) => {
 
 const deleteOldNews = async () => {
     const datediff = Date.now() - 172800000;
-    const snapshot = await admin.firestore().collection('inshorts').where('created_at', '<=', datediff).get();
+    const snapshot = await admin.firestore().collection('inshorts').where('pushed_at', '>=', datediff).limit(1000).get();
     snapshot.docs.map(async (doc) => {
         await doc.ref.delete();
     });
+    console.log(datediff)
     console.log(`${snapshot.docs.length} news deleted`);
 }
 
