@@ -6,14 +6,24 @@ const firebase = require('./utils/config');
 const firestore = firebase.firestore();
 const fcmpush = require('./fcmpush');
 const express = require('express');
+const hindi = require('./hindi')
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-
 app.get('/', (req, res) => {
     res.send('hello from simple server :)')
 });
+
+app.get('/categories', hindi.getCategories);
+
+app.get('/getToken', hindi.register);
+
+app.get('/feed/home', hindi.feed);
+
+app.post('/category/:categoryId', hindi.byCat);
+
+app.post('/feed/:articleId', hindi.viewArticle);
 
 app.listen(port, () => {
     console.log('server running on ' + port);
@@ -54,21 +64,15 @@ const fetchNews = async () => {
                     };
                     await addNews(singleNewsData)
                 }
-
             });
         });
     }
-
-
 }
 
 const addNews = async (data) => {
     if (data != null) {
         try {
-
             await admin.firestore().collection('inshorts').doc(data.hash_id).set(data, { merge: true });
-            // console.log(`${data.title} added`);
-
         } catch (e) {
             console.log(e.message);
         }

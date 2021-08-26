@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "firebase": "^8.7.1",
     "firebase-admin": "^9.11.0",
     "firebase-functions": "^3.14.1",
-    "mongoose": "^5.13.3"
+    "mongoose": "^5.13.3",
+    "nodemon": "^2.0.12"
   }
 }

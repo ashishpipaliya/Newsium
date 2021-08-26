@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newsium/feature/home/homepage_view.dart';
 import 'package:newsium/layout/feed_page.dart';
 import 'package:newsium/localization/app_model.dart';
 import 'package:newsium/utils/app_router.dart';
@@ -36,7 +37,7 @@ class _AppWrapperState extends State<AppWrapper> {
               debugShowCheckedModeBanner: false,
               onGenerateRoute: (settings) =>
                   AppRouter.onGenerateRoute(settings),
-              home: FeedScreen(),
+              home: HomePageView(),
               theme: new ThemeData(
                 primaryColor: AppColor.brownColor,
               ),
