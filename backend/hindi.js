@@ -14,26 +14,11 @@ const headers = {
     'user-agent': 'okhttp/4.6.0'
 };
 
-exports.getCategories = async (req, res) => {
-    var config = {
-        method: 'get',
-        url: 'https://prod.bhaskarapi.com/api/2.0/lists/cats',
-        headers: headers
-    };
-
-    axios(config)
-        .then(function (response) {
-            res.json({ data: response.data.cats });
-        })
-        .catch(function (error) {
-            res.status(400).json({
-                message: error.message
-            })
-        });
-}
-
-
 exports.register = async (req, res) => {
+    if (req.body?.deviceId != null) {
+        headers['deviceid'] = req.body?.deviceId;
+    }
+
     var config = {
         method: 'POST',
         url: 'https://prod.bhaskarapi.com/api/1.0/user/register',
@@ -51,8 +36,36 @@ exports.register = async (req, res) => {
         });
 }
 
+exports.getCategories = async (req, res) => {
+
+    if (req.body != null) {
+        headers['deviceid'] = req.body?.deviceId;
+        headers['at'] = req.body?.at;
+    }
+
+    var config = {
+        method: 'get',
+        url: 'https://prod.bhaskarapi.com/api/2.0/lists/cats',
+        headers: headers
+    };
+
+    axios(config)
+        .then(function (response) {
+            res.json({ data: response.data.cats });
+        })
+        .catch(function (error) {
+            res.status(400).json({
+                message: error.message
+            })
+        });
+}
 
 exports.feed = async (req, res) => {
+
+    if (req.body != null) {
+        headers['deviceid'] = req.body?.deviceId;
+        headers['at'] = req.body?.at;
+    }
 
     var config = {
         method: 'get',
@@ -71,7 +84,12 @@ exports.feed = async (req, res) => {
 }
 
 exports.byCat = async (req, res) => {
-    const categoryId = req.params.categoryId;
+    const categoryId = req.params?.categoryId;
+
+    if (req.body != null) {
+        headers['deviceid'] = req.body?.deviceId;
+        headers['at'] = req.body?.at;
+    }
 
     var config = {
         method: 'get',
@@ -94,16 +112,28 @@ exports.byCat = async (req, res) => {
 
 
 exports.viewArticle = async (req, res) => {
-    const articleId = req.params.articleId;
+    var articleId;
+
+    if (req.body != null) {
+        headers['deviceid'] = req.body?.deviceId;
+        headers['at'] = req.body?.at;
+        articleId = req.body?.storyId;
+    }
+
+    console.log(headers.deviceid);
 
     var config = {
         method: 'get',
         url: `https://prod.bhaskarapi.com/api/1.0/feed/story/${articleId}`,
         headers: headers
     };
+
+
+    console.log(headers);
+
     axios(config)
         .then(function (response) {
-            res.json({ data: response.data.feed });
+            res.json({ data: response.data });
         })
         .catch(function (error) {
             res.status(400).json({

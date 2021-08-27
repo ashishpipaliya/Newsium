@@ -1,8 +1,5 @@
 var admin = require('firebase-admin');
 var serviceAccount = require('./utils/service-account.json');
-const firebase = require('./utils/config');
-const firestore = firebase.firestore();
-const mongoose = require('mongoose');
 const Token = require('./model/token_model')
 require('dotenv').config()
 
@@ -10,13 +7,6 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://flutter-fire-news.firebaseio.com'
 });
-
-mongoose.connect(process.env.MONGOURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('Established connection to database!')).catch((e) => {
-    console.log(e);
-})
 
 const getTokensFromMongodb = async () => {
     try {

@@ -3,27 +3,38 @@ const getNewsEndpoint = require('./utils/endpoint');
 var admin = require('firebase-admin');
 var serviceAccount = require('./utils/service-account.json');
 const firebase = require('./utils/config');
-const firestore = firebase.firestore();
+const mongoose = require('mongoose');
 const fcmpush = require('./fcmpush');
 const express = require('express');
-const hindi = require('./hindi')
+const hindi = require('./hindi');
 
 const app = express();
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
 const port = process.env.PORT || 5000;
+
+mongoose.connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => console.log('Established connection to database!')).catch((e) => {
+    console.log(e);
+})
+
 
 app.get('/', (req, res) => {
     res.send('hello from simple server :)')
 });
 
-app.get('/categories', hindi.getCategories);
+app.post('/getToken', hindi.register);
 
-app.get('/getToken', hindi.register);
+app.post('/categories', hindi.getCategories);
 
-app.get('/feed/home', hindi.feed);
+app.post('/feed/home', hindi.feed);
 
 app.post('/category/:categoryId', hindi.byCat);
 
-app.post('/feed/:articleId', hindi.viewArticle);
+app.post('/view', hindi.viewArticle);
 
 app.listen(port, () => {
     console.log('server running on ' + port);
