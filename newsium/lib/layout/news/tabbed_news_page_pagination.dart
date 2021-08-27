@@ -7,7 +7,7 @@ import 'package:newsium/services/firestore_path.dart';
 import 'package:newsium/utils/app_color.dart';
 import 'package:newsium/utils/utils.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
+import 'package:photo_view/photo_view.dart';
 
 class TabbedNewsPagePaginated extends StatefulWidget {
   final List<News>? news;
@@ -37,7 +37,6 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
           News n = News.fromJson(data);
           return RectangleNewsAdapter(
             news: n,
-            openWeb: () => _showNewsInDialog(context, url: n.sourceUrl),
             openModal: () => _showNewsInModal(context, news: n),
             viewImage: () => _viewImage(n.imageUrl!),
           );
@@ -54,16 +53,19 @@ class _TabbedNewsPagePaginatedState extends State<TabbedNewsPagePaginated> {
     );
   }
 
-  _showNewsInDialog(BuildContext context, {required String? url}) {
-    Utils.showNewsInDialog(context, url: url);
-  }
-
   _showNewsInModal(BuildContext context, {required News? news}) {
-    Utils.showNewsBottomSheet(context, news: news);
+    Utils.showNewsBottomSheet(
+      context,
+      news: news,
+      readMore: () {
+        Get.back();
+        Utils.showNewsWebview(context, url: news!.sourceUrl);
+      },
+    );
   }
 
   _viewImage(String? image) {
-    Get.to(ViewImage(image: image));
+    Get.to(() => ViewImage(image: image), transition: Transition.fadeIn);
   }
 }
 
@@ -73,16 +75,6 @@ class ViewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PinchZoom(
-      child: Image.network(image!),
-      resetDuration: const Duration(milliseconds: 100),
-      maxScale: 2.5,
-      onZoomStart: () {
-        print('Start zooming');
-      },
-      onZoomEnd: () {
-        print('Stop zooming');
-      },
-    );
+    return PhotoView(imageProvider: NetworkImage(image!));
   }
 }

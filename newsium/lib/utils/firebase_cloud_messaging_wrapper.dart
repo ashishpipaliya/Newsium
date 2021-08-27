@@ -27,7 +27,8 @@ class FireBaseCloudMessagingWrapper extends Object {
     return _singleton;
   }
 
-  static final FireBaseCloudMessagingWrapper _singleton = new FireBaseCloudMessagingWrapper._internal();
+  static final FireBaseCloudMessagingWrapper _singleton =
+      new FireBaseCloudMessagingWrapper._internal();
 
   FireBaseCloudMessagingWrapper._internal() {
     print("===== Firebase Messaging created =====");
@@ -67,15 +68,23 @@ class FireBaseCloudMessagingWrapper extends Object {
     try {
       String? deviceId = await PlatformDeviceId.getDeviceId;
       print('----------------------------- $deviceId');
-      var db = await Db.create('mongodb+srv://ashish:ashdeveloper@cluster0.ji7mu.mongodb.net/tokens');
+      var db = await Db.create(
+          'mongodb+srv://ashish:ashdeveloper@cluster0.ji7mu.mongodb.net/tokens');
       await db.open();
       var collection = db.collection('tokens');
-      var data = {'_id': deviceId, 'token': token, 'created_at': DateTime.now().toUtc().millisecondsSinceEpoch, 'device_type': Platform.isAndroid ? 'android' : 'ios'};
+      var data = {
+        '_id': deviceId,
+        'token': token,
+        'created_at': DateTime.now().toUtc().millisecondsSinceEpoch,
+        'device_type': Platform.isAndroid ? 'android' : 'ios'
+      };
       var exists = await collection.findOne({'_id': deviceId});
       if (exists == null) {
         await collection.insert(data);
       } else {
-        await collection.update(where.eq('_id', deviceId), modify.set('token', token).set('created_at', data['created_at']), multiUpdate: true);
+        await collection.update(where.eq('_id', deviceId),
+            modify.set('token', token).set('created_at', data['created_at']),
+            multiUpdate: true);
       }
       db.close();
     } catch (e) {
@@ -97,7 +106,7 @@ class FireBaseCloudMessagingWrapper extends Object {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("onMessage :: ${message.toString()}");
-     NotificationService.displayNotification(message);
+      NotificationService.displayNotification(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -157,13 +166,14 @@ class FireBaseCloudMessagingWrapper extends Object {
 
   static int getTabIndex(String? category) {
     int index = 0;
-    final catList = categories.map((c) => c.toLowerCase().trim().replaceAll('-', '')).toList();
-
+    final catList = categories
+        .map((c) => c.toLowerCase().trim().replaceAll('-', ''))
+        .toList();
     index = catList.indexOf(category!);
     return index;
   }
 
- static void handleRedirect({String? category}) {
+  static void handleRedirect({String? category}) {
     if (category == 'top_stories') {
       Get.offNamed('/FeedScreen');
     } else {

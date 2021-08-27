@@ -58,7 +58,6 @@ class _CategoryWiseNewsPageState extends State<CategoryWiseNewsPage>
                         if (Navigator.of(context).canPop()) {
                           Navigator.of(context).pop();
                         }
-                        ;
                       },
                     ),
                     IconButton(

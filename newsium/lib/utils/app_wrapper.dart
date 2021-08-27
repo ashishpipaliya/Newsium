@@ -36,6 +36,7 @@ class _AppWrapperState extends State<AppWrapper> {
               onGenerateRoute: (settings) =>
                   AppRouter.onGenerateRoute(settings),
               home: FeedScreen(),
+              defaultTransition: Transition.fadeIn,
               theme: new ThemeData(
                 primaryColor: AppColor.brownColor,
               ),

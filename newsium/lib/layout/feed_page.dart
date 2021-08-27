@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:newsium/layout/news/news_adapter.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/services/firestore_path.dart';
@@ -53,7 +56,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 ],
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.5,
                 child: PaginateFirestore(
                   physics: ClampingScrollPhysics(),
                   itemBuilder: (index, context, documentSnapshot) {
@@ -62,13 +65,12 @@ class _FeedScreenState extends State<FeedScreen> {
                     News n = News.fromJson(data);
                     return NewsAdapter(
                       news: n,
-                      openWeb: () =>
-                          _showNewsInDialog(context, url: n.sourceUrl),
+                      openWeb: () => _showNewsInModal(context, news: n),
                     );
                   },
                   query: FirestorePath.allNews,
                   itemBuilderType: PaginateBuilderType.pageView,
-                  scrollDirection: Axis.vertical,
+                  scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   emptyDisplay: Center(child: Text('No Latest News Found')),
                   initialLoader:
@@ -104,12 +106,19 @@ class _FeedScreenState extends State<FeedScreen> {
         ));
   }
 
-  _showNewsInDialog(BuildContext context, {required String? url}) {
-    Utils.showNewsInDialog(context, url: url);
+  _showNewsInModal(BuildContext context, {required News? news}) {
+    Utils.showNewsBottomSheet(
+      context,
+      news: news,
+      readMore: () {
+        Get.back();
+        Utils.showNewsWebview(context, url: news!.sourceUrl);
+      },
+    );
   }
 
   _handleCategoryPushEvent(int index) {
-    Navigator.pushNamed(context, '/CategoryWiseNewsPage', arguments: index);
+    Get.toNamed('/CategoryWiseNewsPage', arguments: index);
   }
 }
 
@@ -130,18 +139,20 @@ class CategoryAdapter extends StatelessWidget {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.primaries[index!],
+          border: Border.all(color: Colors.black38),
           gradient: LinearGradient(
             colors: [
-              Colors.black54,
-              Colors.primaries[index!].withOpacity(0.9),
+              Colors.primaries[Random().nextInt(Colors.primaries.length)]
+                  .withOpacity(0.3),
+              Colors.accents[Random().nextInt(Colors.accents.length)]
+                  .withOpacity(0.4),
             ],
           ),
         ),
         child: Text(
           categoryName!.replaceAll('_', ' '),
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),

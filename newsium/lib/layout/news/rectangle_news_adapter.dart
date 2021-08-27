@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/utils/app_color.dart';
-import 'package:newsium/utils/app_image.dart';
 import 'package:newsium/utils/widgets/image_widget.dart';
 
 class RectangleNewsAdapter extends StatelessWidget {
@@ -34,7 +33,6 @@ class RectangleNewsAdapter extends StatelessWidget {
               width: 90,
               child: ImageWidget(
                 url: news!.imageUrl!,
-                placeholder: AppImage.placeholder,
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -44,46 +42,48 @@ class RectangleNewsAdapter extends StatelessWidget {
             child: GestureDetector(
               onTap: openModal,
               onDoubleTap: openWeb,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      news!.title!,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        news!.title!,
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          news!.createdAtAgo,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            news!.createdAtAgo,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          news!.sourceName!,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w100,
+                        Flexible(
+                          child: Text(
+                            news!.sourceName!,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
