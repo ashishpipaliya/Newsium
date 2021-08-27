@@ -101,5 +101,5 @@ const deleteOldNews = async () => {
 }
 
 setInterval(fetchNews, 840000);
-setInterval(fcmpush,10000 ); //900000
+setInterval(fcmpush,900000 );
 setInterval(deleteOldNews, 86400000);
