@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:newsium/layout/feed_page.dart';
 import 'package:newsium/localization/app_model.dart';
 import 'package:newsium/utils/app_router.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'app_color.dart';
 
@@ -30,18 +29,15 @@ class _AppWrapperState extends State<AppWrapper> {
       value: _appModel,
       child: Consumer<AppModel>(
         builder: (context, value, child) {
-          return OverlaySupport(
-            child: GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              onGenerateRoute: (settings) =>
-                  AppRouter.onGenerateRoute(settings),
-              home: FeedScreen(),
-              defaultTransition: Transition.fadeIn,
-              theme: new ThemeData(
-                primaryColor: AppColor.brownColor,
-              ),
-              navigatorObservers: [observer],
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings),
+            home: FeedScreen(),
+            defaultTransition: Transition.fadeIn,
+            theme: new ThemeData(
+              primaryColor: AppColor.brownColor,
             ),
+            navigatorObservers: [observer],
           );
         },
       ),

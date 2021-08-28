@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
@@ -13,9 +15,10 @@ class NotificationService {
     );
     _notification.initialize(
       _initializationSettings,
-      onSelectNotification: (String? category) {
-        if (category != null) {
-          FireBaseCloudMessagingWrapper.handleRedirect(category: category);
+      onSelectNotification: (String? payload) {
+        print(payload);
+        if (payload != null) {
+          FireBaseCloudMessagingWrapper.handleRedirect(payload: payload);
         }
         throw NullThrownError();
       },
@@ -39,7 +42,7 @@ class NotificationService {
         message?.notification!.title,
         message?.notification!.body,
         notificationDetails,
-        payload: message!.data['category'],
+        payload: json.encode(message!.data),
       );
     } on Exception catch (e) {
       print(e);

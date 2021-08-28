@@ -23,7 +23,8 @@ const getNotificationPayload = async () => {
     try {
         const querySnapshot = await admin.firestore().collection('inshorts').orderBy('created_at', 'desc').limit(1).get();
         const notification = {
-            body: querySnapshot.docs[0].data().title,
+            title : querySnapshot.docs[0].data().title,
+            body: querySnapshot.docs[0].data().source_name,
             image: querySnapshot.docs[0].data().image_url,
             android_channel_id : 'newsium',
         }

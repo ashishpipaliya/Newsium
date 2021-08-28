@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:link_text/link_text.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:newsium/layout/news/news_page.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/services/notification_service.dart';
+import 'package:newsium/utils/app_color.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
 Future<void> onBackgroundHandler(RemoteMessage? message) async {
@@ -161,7 +165,7 @@ class FireBaseCloudMessagingWrapper extends Object {
 
     Map<String, dynamic> notification = Map<String, dynamic>();
     notification = payload!.data;
-    handleRedirect(category: notification['category']);
+    handleRedirect(payload: json.encode(notification));
   }
 
   static int getTabIndex(String? category) {
@@ -173,12 +177,30 @@ class FireBaseCloudMessagingWrapper extends Object {
     return index;
   }
 
-  static void handleRedirect({String? category}) {
-    if (category == 'top_stories') {
+  static void handleRedirect({String? payload}) {
+    Map<String, dynamic> notification = json.decode(payload!);
+
+    print(notification);
+    if (notification['category'] == 'update') {
+      Get.defaultDialog(
+        title: notification['msgTitle'] ?? 'Hey There',
+        content: LinkText(
+          notification['msg'],
+          linkStyle: TextStyle(color: AppColor.brownColor),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('Okay'),
+          ),
+        ],
+      );
+    } else if (notification['category'] == 'top_stories') {
       Get.offNamed('/FeedScreen');
     } else {
       Get.offAllNamed('/FeedScreen');
-      Get.to(() => CategoryWiseNewsPage(tabIndex: getTabIndex(category)));
+      Get.to(() => CategoryWiseNewsPage(
+          tabIndex: getTabIndex(notification['category'])));
     }
   }
 }
