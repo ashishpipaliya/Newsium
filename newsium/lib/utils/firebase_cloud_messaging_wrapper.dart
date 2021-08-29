@@ -186,6 +186,7 @@ class FireBaseCloudMessagingWrapper extends Object {
         title: notification['msgTitle'] ?? 'Hey There',
         content: LinkText(
           notification['msg'],
+          textStyle: TextStyle(color: AppColor.darkTextColor),
           linkStyle: TextStyle(color: AppColor.brownColor),
         ),
         actions: [
@@ -199,8 +200,11 @@ class FireBaseCloudMessagingWrapper extends Object {
       Get.offNamed('/FeedScreen');
     } else {
       Get.offAllNamed('/FeedScreen');
-      Get.to(() => CategoryWiseNewsPage(
-          tabIndex: getTabIndex(notification['category'])));
+      Get.to(
+        () => CategoryWiseNewsPage(
+          tabIndex: getTabIndex(notification['category']),
+        ),
+      );
     }
   }
 }

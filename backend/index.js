@@ -10,7 +10,7 @@ const hindi = require('./hindi');
 
 const app = express();
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 const port = process.env.PORT || 5000;
 
@@ -101,5 +101,5 @@ const deleteOldNews = async () => {
 }
 
 setInterval(fetchNews, 840000);
-setInterval(fcmpush,9000 );
+setInterval(fcmpush, 900000);
 setInterval(deleteOldNews, 86400000);
