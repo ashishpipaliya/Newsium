@@ -34,15 +34,17 @@ class NotificationService {
           'newsium',
           importance: Importance.max,
           priority: Priority.high,
+          playSound: true,
+          sound: RawResourceAndroidNotificationSound("ting"),
         ),
       );
 
       _notification.show(
         DateTime.now().millisecondsSinceEpoch ~/ 100000,
-        message?.notification!.title,
-        message?.notification!.body,
+        message!.notification!.title,
+        message.notification!.body,
         notificationDetails,
-        payload: json.encode(message!.data),
+        payload: json.encode(message.data),
       );
     } on Exception catch (e) {
       print(e);

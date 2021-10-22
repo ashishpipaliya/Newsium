@@ -33,7 +33,6 @@ class _AppWrapperState extends State<AppWrapper> {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings),
             home: FeedScreen(),
-            defaultTransition: Transition.fadeIn,
             theme: new ThemeData(
               primaryColor: AppColor.brownColor,
             ),

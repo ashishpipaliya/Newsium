@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class Utils {
   static showNewsWebview(BuildContext context, {required String? url}) {
     UniqueKey _key = UniqueKey();
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     showModalBottomSheet(
       context: context,
@@ -51,8 +54,8 @@ class Utils {
       backgroundColor: Colors.transparent,
       builder: (context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.52,
-          maxChildSize: 0.52,
+          initialChildSize: 0.60,
+          maxChildSize: 0.60,
           builder: (context, scrollController) => Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
@@ -76,12 +79,18 @@ class Utils {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    news.title!,
+                    news.title!.trim(),
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                   ),
+                  SizedBox(height: 10),
                   Text(
                     news.description!,
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      height: 1.7,
+                      fontSize: 17,
+                      letterSpacing: 1.1,
+                    ),
                   ),
                   TextButton(onPressed: readMore, child: Text("Read More"))
                 ],

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:newsium/services/notification_service.dart';
 import 'package:newsium/utils/firebase_cloud_messaging_wrapper.dart';
 
@@ -13,6 +14,7 @@ class AppModel extends ChangeNotifier {
     print('---------------initial setup');
     NotificationService.initialize();
     await Firebase.initializeApp();
+    await GetStorage.init();
 
     // Update FCM Token
     Future.delayed(Duration(seconds: 1), () async {

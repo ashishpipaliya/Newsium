@@ -8,6 +8,7 @@ import 'package:newsium/layout/news/news_adapter.dart';
 import 'package:newsium/models/news_model.dart';
 import 'package:newsium/services/firestore_path.dart';
 import 'package:newsium/utils/app_color.dart';
+import 'package:newsium/utils/app_image.dart';
 import 'package:newsium/utils/utils.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
@@ -48,11 +49,24 @@ class _FeedScreenState extends State<FeedScreen> {
                   Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 15),
-                      child: Text('Newsium',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: AppColor.darkTextColor,
-                              fontWeight: FontWeight.bold))),
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 0,
+                        children: [
+                          Image.asset(
+                            AppImage.logo,
+                            width: 25,
+                            height: 25,
+                            alignment: Alignment.bottomCenter,
+                            fit: BoxFit.fitHeight,
+                          ),
+                          Text('ewsium',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: AppColor.darkTextColor,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      )),
                 ],
               ),
               Container(

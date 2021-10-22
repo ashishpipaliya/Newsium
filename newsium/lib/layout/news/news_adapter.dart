@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:newsium/models/news_model.dart';
-import 'package:newsium/utils/app_color.dart';
 import 'package:newsium/utils/widgets/image_widget.dart';
 
 class NewsAdapter extends StatelessWidget {

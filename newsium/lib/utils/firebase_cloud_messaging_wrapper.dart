@@ -73,7 +73,7 @@ class FireBaseCloudMessagingWrapper extends Object {
       String? deviceId = await PlatformDeviceId.getDeviceId;
       print('----------------------------- $deviceId');
       var db = await Db.create(
-          'mongodb+srv://ashish:ashdeveloper@cluster0.ji7mu.mongodb.net/tokens');
+          'mongodb+srv://username:password@cluster0.ji7mu.mongodb.net/tokens');
       await db.open();
       var collection = db.collection('tokens');
       var data = {
@@ -183,16 +183,16 @@ class FireBaseCloudMessagingWrapper extends Object {
     print(notification);
     if (notification['category'] == 'update') {
       Get.defaultDialog(
-        title: notification['msgTitle'] ?? 'Hey There',
+        title: notification['messageTitle'] ?? 'Hey There',
         content: LinkText(
-          notification['msg'],
+          notification['message'],
           textStyle: TextStyle(color: AppColor.darkTextColor),
-          linkStyle: TextStyle(color: AppColor.brownColor),
+          linkStyle: TextStyle(color: AppColor.blueColor),
         ),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Okay'),
+            child: Text(notification['messageButtonText']),
           ),
         ],
       );

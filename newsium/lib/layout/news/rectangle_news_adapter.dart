@@ -48,7 +48,7 @@ class RectangleNewsAdapter extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        news!.title!,
+                        news!.title!.trim(),
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

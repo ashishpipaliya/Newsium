@@ -13,4 +13,6 @@ class FirestorePath {
       .collection(collectionName)
       .where('category', isEqualTo: 'trending')
       .orderBy('created_at', descending: true);
+
+  static Query get adData => FirebaseFirestore.instance.collection('ads');
 }
