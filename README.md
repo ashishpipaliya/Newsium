@@ -1,9 +1,9 @@
 ## News App Using Flutter and Nodejs
 
 * Using inshorts private API to get news
-* Firestore to save news
+* Firestore to save news using firebase admin npm module
 * MongoDB to store device FCM Tokens
-* News in notification every x seconds
+* News via notification every x seconds
 * Easy to use
 
 
